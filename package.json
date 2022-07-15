@@ -18,12 +18,12 @@
   "author": "Hirotaka Osaki",
   "license": "MIT",
   "dependencies": {
-    "passport-oauth2": "^1.1.2",
-    "pkginfo": "^0.2.3"
+    "passport-oauth2": "^1.6.1",
+    "pkginfo": "^0.4.1"
   },
   "devDependencies": {
-    "sinon": "^1.10.2",
-    "vows": "~0.7.0"
+    "sinon": "^14.0.0",
+    "vows": "^0.8.3"
   },
   "scripts": {
     "test": "NODE_PATH=lib node_modules/.bin/vows test/*.test.js"
