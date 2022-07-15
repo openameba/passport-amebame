@@ -108,8 +108,7 @@ vows.describe('AmebameStrategy').addBatch({
           sandbox: true
         }, function() {});
 
-        var self = this
-          , req = {query: {frm_id: "frmId"}}
+        var req = {query: {frm_id: "frmId"}}
           , options = {}
           , redirectUrl;
 
@@ -119,12 +118,9 @@ vows.describe('AmebameStrategy').addBatch({
 
           // TODO: parse querystring
           redirectUrl = 'https://sb.dauth.user.ameba.jp/authorize?frm_id=frmId&response_type=code&redirect_uri=&scope=profile%2Capplication%2Cconnection%2Cphoto%2Ccoin&client_id=ABC123';
-          self.callback(strategy.redirect.withArgs(redirectUrl).calledOnce);
+          assert.isTrue(strategy.redirect.withArgs(redirectUrl).calledOnce);
         });
       },
-      "redirect to": function(calledOnce) {
-        assert.isTrue(calledOnce);
-      }
     },
     'with code': {
       topic: function() {
