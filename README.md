@@ -37,25 +37,17 @@ passport.use(new AmebameStrategy({
 app.get('/auth/amebame',
   passport.authenticate('amebame'));
 
-// 認可が完了していない場合,自分でredirect先を設定する必要がある
-
-var registerRedirect = AmebameService.redirectRegisterPage({clientID: clientId, registerCallbackURL: "http://localhost"})
-
 app.get('/auth/amebame/callback',
     function(req, res, next) {
       passport.authenticate('amebame', function(err, user, info) {
-        if (err && err.name === 'AmebameNotRegisteredError') {
-          registerRedirect(req, res);
+        // You can also check with status code in err
+        if (err) {
+          res.redirect("/error");
         } else {
-          if (err) {
-            res.redirect("/error");
-          } else {
-            req.login(user, {session: true}, function() {
-              res.redirect('/');
-            });
-          }
+          req.login(user, {session: true}, function() {
+            res.redirect('/');
+          });
         }
       })(req, res, next);
     });
 ```
-
