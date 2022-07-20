@@ -38,5 +38,5 @@ export class Strategy extends passport.Strategy {
   name: string;
   authenticate(req: express.Request, options?: Object): void;
   authorizationParams(options: express.Request): IAuthorizationParams;
-  userProfile(accessToken: string, done: (error: any, user?: any) => void): void;
+  userProfile(accessToken: string, done: (error: Error | null, user?: { provider: 'amebame' } & Profile) => void): void;
 }
