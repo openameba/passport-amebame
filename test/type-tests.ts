@@ -3,7 +3,7 @@ import passport from 'passport';
 import Amebame from '../lib/passport-amebame/index.js';
 
 const User = {
-  findOrCreate(accessToken: string, refreshToken: string, id:string, provider:string, callback:(err:any, user:any) => void): void {
+  findOrCreate(accessToken: string, refreshToken: string, id: string, provider: string, callback:(err: Error | null, user: Express.User) => void): void {
     callback(null, { username: 'amebame' });
   },
 };

@@ -33,7 +33,7 @@ interface IAuthorizationParams {
 
 export class Strategy extends passport.Strategy {
   constructor(options: IStrategyOption,
-      verify: (accessToken: string, refreshToken: string, profile: Profile, done: (error: any, user?: any) => void) => void);
+      verify: (accessToken: string, refreshToken: string, profile: Profile, done: (error: Error | null, user?: Express.User) => void) => void);
 
   name: string;
   authenticate(req: express.Request, options?: Object): void;
