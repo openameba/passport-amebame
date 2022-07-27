@@ -9,7 +9,6 @@ var debug = require('debug')('login');
 var passport = require('passport');
 var session = require('express-session');
 var AmebameStrategy = require('passport-amebame').Strategy;
-var AmebameService = require('passport-amebame').Service;
 
 var app = express();
 
@@ -22,7 +21,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(session({
-  secret: 'secretkey'
+  secret: 'secretkey',
+  resave: false,
+  saveUninitialized: false,
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -45,7 +46,8 @@ passport.use(new AmebameStrategy({
     clientID: clientId,
     clientSecret: clientSecret,
     scope: scope,
-    sandbox: true
+    authOrigin: 'https://sb.dauth.user.ameba.jp',
+    profileOrigin: 'https//sb-profile-api.ameba.jp',
   },
   function(accessToken, refreshToken, params, profile, done) {
     process.nextTick(function() {
@@ -55,35 +57,22 @@ passport.use(new AmebameStrategy({
 ));
 
 app.get('/login', passport.authenticate('amebame'));
-app.get('/redirect_test', AmebameService.redirectRegisterPage({
-  clientID: clientId,
-  registerCallbackURL: "http://localhost",
-  sandbox: true
-}));
 
 app.get('/login_callback',
-        function(req, res, next) { // registerしていないときは 登録画面に遷移させる
-          passport.authenticate('amebame', function(err, user) {
-            if (err) {
-              if (err.name === 'AmebameNotRegisteredError') {
-                AmebameService.redirectRegisterPage({
-                  clientID: clientId,
-                  registerCallbackURL: "http://localhost",
-                  sandbox: true
-                })(req, res);
-              } else {
-                res.redirect('/?ng=0');
-              }
-            } else {
-              if (!user) {
-                return res.redirect('/?ok=1');
-              }
-              req.login(user, {session: true}, function() {
-                res.redirect('/?ok=2');
-              });
-            }
-          })(req, res, next);
-        });
+  function(req, res, next) {
+    passport.authenticate('amebame', function(err, user) {
+      if (err) {
+        return res.redirect('/?ng=0');
+      }
+      if (!user) {
+        return res.redirect('/?ok=1');
+      }
+      req.login(user, {session: true}, function() {
+        res.redirect('/?ok=2');
+      });
+    });
+  }
+);
 
 app.use('/', function(req, res) {
   var status = 'login';
