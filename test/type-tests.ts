@@ -14,7 +14,7 @@ const CLIENT_SECRET = '';
 passport.use(new Amebame.Strategy({
   clientID: CLIENT_ID,
   clientSecret: CLIENT_SECRET,
-}, function(accessToken, refreshToken, profile, done) {
+}, function(accessToken, refreshToken, params, profile, done) {
   User.findOrCreate(accessToken, refreshToken, profile.id, profile.provider, function(err, user) {
     if (err) { return done(err); }
     done(null, user);
@@ -26,7 +26,7 @@ passport.use(new Amebame.Strategy({
   clientSecret: CLIENT_SECRET,
   authOrigin: 'https://sb.dauth.user.ameba.jp',
   profileOrigin: 'https//sb-profile-api.ameba.jp',
-}, function(accessToken, refreshToken, profile, done) {
+}, function(accessToken, refreshToken, params, profile, done) {
   User.findOrCreate(accessToken, refreshToken, profile.id, profile.provider, function(err, user) {
     if (err) { return done(err); }
     done(null, user);

@@ -20,6 +20,12 @@ interface IStrategyOption {
   profileOrigin?: string;
 }
 
+interface IVerifyParams {
+  access_token: string;
+  as_id: string;
+  expires_in: string;
+}
+
 interface IAuthorizationParams {
   frm_id?: string;
   ameba_frmId?: string;
@@ -33,7 +39,7 @@ interface IAuthorizationParams {
 
 export class Strategy extends passport.Strategy {
   constructor(options: IStrategyOption,
-      verify: (accessToken: string, refreshToken: string, profile: Profile, done: (error: Error | null, user?: Express.User) => void) => void);
+      verify: (accessToken: string, refreshToken: string, params: IVerifyParams, profile: Profile, done: (error: Error | null, user?: Express.User) => void) => void);
 
   name: string;
   authenticate(req: express.Request, options?: Object): void;
