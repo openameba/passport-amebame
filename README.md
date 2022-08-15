@@ -23,7 +23,7 @@ passport.use(new Amebame.Strategy({
   scope: '', // Optional
   authOrigin: '', // Optional
   profileOrigin: '', // Optional
-}, function(accessToken, refreshToken, profile, done) {
+}, function(accessToken, refreshToken, params, profile, done) {
   User.findOrCreate({ id: profile.id, profile }, function(err, user) {
     if (err) { return done(err); }
     done(null, user);
