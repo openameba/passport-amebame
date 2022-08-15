@@ -1,6 +1,44 @@
 import passport = require('passport');
 import express = require('express');
 
+type ProfilePrivacy = 'anonymous' | 'everyone' | 'onlyMe';
+
+type ProfileJson = {
+  id: {
+    amebaId: string,
+    asId: string,
+  },
+  time: {
+    create: string,
+    update: string,
+  },
+  nickname: {
+    value: string,
+    censored: boolean,
+  },
+  gender: {
+    value: string,
+    privacy: ProfilePrivacy
+  },
+  birthday: {
+    value: string,
+    privacy: ProfilePrivacy,
+    changed: boolean,
+  },
+  profileImage: {
+    originUrl: string,
+    thumbnailUrl: string,
+    censored: boolean,
+    exists: boolean,
+    meta: {
+      amebaOriginWidth: number,
+      amebaOriginHeight: number,
+      amebaThumbnailWidth: number,
+      amebaThumbnailHeight: number,
+    },
+  }
+};
+
 interface Profile extends passport.Profile {
   id: string;
   displayName: string;
@@ -9,7 +47,7 @@ interface Profile extends passport.Profile {
   birthday?: string;
 
   _raw: string;
-  _json: any;
+  _json: ProfileJson;
 }
 
 interface IStrategyOption {
