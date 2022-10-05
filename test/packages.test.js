@@ -8,7 +8,4 @@ vows.describe('passport-amebame').addBatch({
   'should export Strategy constructor': function() {
     assert.typeOf(strategy.Strategy, 'function');
   },
-  'should export Service Object': function() {
-    assert.typeOf(strategy.Service, 'object');
-  }
 }).export(module);

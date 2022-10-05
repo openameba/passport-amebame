@@ -34,7 +34,6 @@ vows.describe('AmebameStrategy').addBatch({
         clientID: 'ABC123',
         clientSecret: 'secret',
         siteURL: 'http://example.jp',
-        sandbox: true
       }, function() {});
 
       return strategy;
@@ -66,7 +65,7 @@ vows.describe('AmebameStrategy').addBatch({
         assert.equal(profile.displayName, "ame2");
       },
       'should eql imageUrl': function(err, profile) {
-        assert.equal(profile.imageUrl, "http://api.sb-amebame.com/graph/45148/picture");
+        assert.equal(profile.imageUrl, "https://example.com/example.jpeg");
       },
       'should eql gender': function(err, profile) {
         assert.equal(profile.gender, "female");
@@ -75,28 +74,6 @@ vows.describe('AmebameStrategy').addBatch({
         assert.equal(profile.birthday, "03/02/1980");
       }
     },
-    'when unregistered user': {
-      topic: function(strategy) {
-        var self = this;
-
-        function done(err, profile) {
-          self.callback(err, profile);
-        }
-
-        process.nextTick(function() {
-          // mock
-          strategy._oauth2.get = function(url, accessToken, callback) {
-            var err = {StatusCode: 401, data: '{"status": 401, "error_description": "auth.notRegistered"}'};
-            callback(err, this.callback);
-          };
-          strategy.userProfile('accessToken', done);
-        });
-      },
-      'should be error': function(exception, err) {
-        assert.equal(exception.name, "AmebameNotRegisteredError");
-        assert.isUndefined(err);
-      }
-    }
   },
   'authorization': {
     "redirect to location": {
@@ -105,7 +82,6 @@ vows.describe('AmebameStrategy').addBatch({
           clientID: 'ABC123',
           clientSecret: 'secret',
           siteURL: 'http://example.jp',
-          sandbox: true
         }, function() {});
 
         var req = {query: {frm_id: "frmId"}}
@@ -128,7 +104,6 @@ vows.describe('AmebameStrategy').addBatch({
           clientID: 'ABC123',
           clientSecret: 'secret',
           siteURL: 'http://example.jp',
-          sandbox: true
         }, this.callback);
 
         // mock
