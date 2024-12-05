@@ -1,5 +1,8 @@
-# passport-amebame
+# DEPRECATED
 
+This repository is no longer maintained.
+
+---
 
 [Passport](http://passportjs.org/) strategy for authenticating with Amebame using the OAuth 2.0 API.
 
